@@ -19,28 +19,39 @@ plt.imshow(binary_image, cmap='gray')
 #printing number matrix
 print(binary_image)
 
+#flattenning the matrix
+flattened_image = binary_image.reshape(1,784)
+print(flattened_image)
+print(flattened_image.shape)
+
 
 features = [[0, 0, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0], [0, 0, 1, 1], [0, 1, 0, 0],
             [0, 1, 0, 1],[0, 1, 1, 0], [0, 1, 1, 1],[1, 0, 0, 0], [1, 0, 0, 1],
             [1, 0, 1, 0], [1, 0, 1, 1], [1, 1, 0, 0], [1, 1, 0, 1],
             [1, 1, 1, 0], [1, 1, 1, 1] ]
 
+#extracting the first 100 rows
 rows = 100
+print(binary_image.shape)
 
-sub_binary_image = binary_image[:rows, :]
-plt.imshow(sub_binary_image, cmap='gray')
+sub_binary_image = flattened_image[:rows]
+print(sub_binary_image.shape)
 
-[rows, cols] = sub_binary_image.shape
-def extractFeature(binary_image):
-  result = []
+rows, cols = binary_image.shape
+
+def extractFeature(data):
+  result = [0] * len(features)
   # num of feature is 0 by default
   for feature in features:
     result.append(0)
   for row in range(0, rows - 1):
     for col in range(0, cols - 1):
-      pattern = tuple([sub_binary_image[row][col], sub_binary_image[row][col+1], sub_binary_image[row+1][col],
-                       binary_image[row+1][col+1]])
+      pattern = tuple([data[row][col], data[row][col+1],data[row+1][col],
+                       data[row+1][col+1]])
       for idx, feature in enumerate(features):
-        if pattern == feature:
+        if pattern == tuple(feature):
           result[idx] += 1
   return result
+
+features_extracted = extractFeature(binary_image)
+print(features_extracted)
