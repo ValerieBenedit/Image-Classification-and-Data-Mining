@@ -1,0 +1,4 @@
+Pictures/Photos Library.photoslibrary/
+# Ignore CSV data files
+*.csv
+DataPreprocessing/*.csv
